@@ -1,15 +1,26 @@
-'use client'; 
+'use client';
 import React, { useState } from 'react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen((prev) => !prev);
   };
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  const menuItems = [
+    { label: 'Delivery', href: '#' },
+    { label: 'Location', href: '#' },
+    { label: 'Menu', href: '#' },
+    { label: 'Promotion', href: '#' },
+  ];
+
   return (
-    <div className="bg-[#D6001C] w-full h-36 text-white flex items-center justify-between px-4 md:px-[450px]">
+    <div className="bg-[#D6001C] w-full h-36 fixed top-0 left-0 z-50 flex items-center justify-between px-4 md:px-[450px] text-white">
       {/* Logo */}
       <img
         src="/jolibee1.png"
@@ -19,7 +30,11 @@ const Header = () => {
 
       {/* Hamburger Icon for Mobile */}
       <div className="md:hidden flex items-center">
-        <button onClick={toggleMenu} className="text-white">
+        <button
+          onClick={toggleMenu}
+          aria-label="Open menu"
+          className="text-white"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -37,47 +52,49 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Button Group for Desktop */}
-      <div className="hidden md:flex gap-4 items-center flex-wrap">
-        <button className="text-white bg-transparent border-white px-4 py-2 rounded-md hover:bg-white hover:text-[#D6001C] text-xl sm:text-2xl font-semibold">
-          Delivery
-        </button>
-        <button className="text-white bg-transparent border-white px-4 py-2 rounded-md hover:bg-white hover:text-[#D6001C] text-xl sm:text-2xl font-semibold">
-          Location
-        </button>
-        <button className="text-white bg-transparent border-white px-4 py-2 rounded-md hover:bg-white hover:text-[#D6001C] text-xl sm:text-2xl font-semibold">
-          Menu
-        </button>
-        <button className="text-white bg-transparent border-white px-4 py-2 rounded-md hover:bg-white hover:text-[#D6001C] text-xl sm:text-2xl font-semibold">
-          Promotion
-        </button>
-        {/* Order Now Button */}
-        <button className="bg-[#FA8003] text-white px-6 py-2 rounded-full hover:bg-[#FF620F] text-xl sm:text-3xl font-bold">
+      {/* Desktop Navigation */}
+      <div className="hidden md:flex gap-4 items-center">
+        {menuItems.map((item, index) => (
+          <a
+            key={index}
+            href={item.href}
+            className="text-white px-4 py-2 text-xl hover:underline"
+          >
+            {item.label}
+          </a>
+        ))}
+        <button className="bg-[#FA8003] text-white px-6 py-2 rounded-full text-xl font-bold hover:bg-[#FF620F]">
           Order Now
         </button>
       </div>
 
       {/* Mobile Menu */}
-      <div
-        className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'} absolute top-0 left-0 w-full bg-[#D6001C] flex flex-col items-center gap-4 py-6`}
-      >
-        <button className="text-white bg-transparent border-white px-4 py-2 rounded-md hover:bg-white hover:text-[#D6001C] text-2xl font-semibold">
-          Delivery
-        </button>
-        <button className="text-white bg-transparent border-white px-4 py-2 rounded-md hover:bg-white hover:text-[#D6001C] text-2xl font-semibold">
-          Location
-        </button>
-        <button className="text-white bg-transparent border-white px-4 py-2 rounded-md hover:bg-white hover:text-[#D6001C] text-2xl font-semibold">
-          Menu
-        </button>
-        <button className="text-white bg-transparent border-white px-4 py-2 rounded-md hover:bg-white hover:text-[#D6001C] text-2xl font-semibold">
-          Promotion
-        </button>
-        {/* Order Now Button */}
-        <button className="bg-[#FA8003] text-white px-6 py-2 rounded-full hover:bg-[#FF620F] text-2xl font-bold">
-          Order Now
-        </button>
-      </div>
+      {isMenuOpen && (
+        <div className="mobile-menu fixed inset-0 bg-[#D6001C] flex flex-col items-center gap-4 py-10 z-40 transition-transform duration-300 ease-in-out">
+          {/* Close Button */}
+          <button
+            onClick={closeMenu}
+            aria-label="Close menu"
+            className="self-end mr-6 text-white hover:text-gray-300 text-5xl absolute top-21 right-17"
+          >
+            &times;
+          </button>
+
+          {/* Mobile Menu Items */}
+          {menuItems.map((item, index) => (
+            <a
+              key={index}
+              href={item.href}
+              className="text-white px-4 py-2 text-xl hover:underline"
+            >
+              {item.label}
+            </a>
+          ))}
+          <button className="bg-[#FA8003] text-white px-6 py-2 rounded-full text-xl font-bold hover:bg-[#FF620F]">
+            Order Now
+          </button>
+        </div>
+      )}
     </div>
   );
 };

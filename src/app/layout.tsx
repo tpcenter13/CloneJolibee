@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Headerbot from "@/components/Headerbot";
-import { Content } from "@/components/Content";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <Header/>
         <Headerbot/>
-        <Content/>
+        
         {children}
       </body>
     </html>
